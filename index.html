@@ -494,15 +494,9 @@
         }
 
         async function loadLegacyCustomLinks() {
-            let remoteLinks = [];
-            try {
-                const data = await fetchJson(LEGACY_LINKS_URL);
-                if (Array.isArray(data)) remoteLinks = data.map(normalizeLink).filter(Boolean);
-            } catch {}
+            try { const data = await fetchJson(LEGACY_LINKS_URL); if (Array.isArray(data)) return data.map(normalizeLink).filter(Boolean); } catch {}
             const local = safeJsonParse(localStorage.getItem('nav_custom_links') || '[]', []);
-            const localLinks = Array.isArray(local) ? local.map(normalizeLink).filter(Boolean) : [];
-            // 无损升级：云端为空时仍读取旧版浏览器数据；两端都有数据时按 URL 合并去重。
-            return dedupeLinks([...remoteLinks, ...localLinks]);
+            return Array.isArray(local) ? local.map(normalizeLink).filter(Boolean) : [];
         }
 
         function loadLegacyFriendLinks() {
@@ -595,12 +589,7 @@
             if (syncInFlight) { scheduleCloudSync(700); return; }
             syncInFlight = true;
             try {
-                // 同时写入新版 sections 与旧版 dynamicSections，便于紧急回滚旧代码时继续识别原有区域。
-                const legacyDynamicSections = siteConfig.sections
-                    .filter(section => !['recommend', 'develop', 'custom', 'friend'].includes(section.id))
-                    .map(section => ({ id: section.id, title: section.title, links: section.links.map(({ name, url }) => ({ name, url })) }));
-                const cloudPayload = { ...siteConfig, dynamicSections: legacyDynamicSections };
-                const response = await fetch(CLOUD_CONFIG_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cloudPayload) });
+                const response = await fetch(CLOUD_CONFIG_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(siteConfig) });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const custom = siteConfig.sections.find(s => s.id === 'custom');
                 if (custom) fetch(LEGACY_LINKS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(custom.links.map(({name, url}) => ({name, url}))) }).catch(() => {});
