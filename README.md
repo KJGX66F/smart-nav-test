@@ -965,4 +965,34 @@ Cloudflare Workers KV
 
 你可以 Fork 后修改成自己的私人导航网站。
 
+## 📄 License
+
+本项目采用 **MIT License** 开源许可证。
+
+你可以自由地：
+
+* ✅ 使用本项目
+* ✅ Fork 与二次开发
+* ✅ 修改源代码
+* ✅ 部署到自己的 Cloudflare 账号
+* ✅ 用于个人或商业项目
+* ✅ 分享与重新发布
+
+使用或二次分发本项目时，请保留原项目的版权声明及 MIT License 许可证内容。
+
+详细许可条款请参阅仓库根目录的 [`LICENSE`](./LICENSE) 文件。
+
+---
+
+## ⭐ Star & Fork
+
+如果这个项目对你有帮助，欢迎点击右上角：
+
+**⭐ Star** 支持项目
+**🍴 Fork** 创建属于自己的版本
+
+项目地址：
+
+`https://github.com/KJGX66F/smart-nav-test`
+
 
