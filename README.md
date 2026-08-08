@@ -1,3 +1,5 @@
+![Uploading image.png…]()
+
 # 🌐 Smart Nav - 智能多功能响应式导航
 
 一款基于 **Cloudflare Pages + Pages Functions + Workers KV** 构建的免费 Serverless 智能导航网站。
